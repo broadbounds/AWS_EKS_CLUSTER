@@ -167,6 +167,10 @@ resource "aws_eks_cluster" "demo" {
   vpc_config {
     security_group_ids = [aws_security_group.demo-cluster.id]
     subnet_ids         = aws_subnet.demo[*].id
+    # The cluster will have a public endpoint. We will be able to call it from the public internet to interact with it
+    endpoint_public_access = true 
+    # The cluster will have a private endpoint too. Worker nodes will be able to call the control plane without leaving the VPC
+    endpoint_private_access = true 
   }
 
   depends_on = [

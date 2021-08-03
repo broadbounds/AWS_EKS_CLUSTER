@@ -28,14 +28,14 @@ provider "http" {}
 # to the Kubernetes cluster.
 #
 
-data "http" "workstation-external-ip" {
-  url = "http://ipv4.icanhazip.com"
-}
+#data "http" "workstation-external-ip" {
+  #url = "http://ipv4.icanhazip.com"
+#}
 
-# Override with variable or hardcoded value if necessary
-locals {
-  workstation-external-cidr = "${chomp(data.http.workstation-external-ip.body)}/32"
-}
+## Override with variable or hardcoded value if necessary
+#locals {
+  #workstation-external-cidr = "${chomp(data.http.workstation-external-ip.body)}/32"
+#}
 
 
 
@@ -150,7 +150,8 @@ resource "aws_security_group" "demo-cluster" {
 }
 
 resource "aws_security_group_rule" "demo-cluster-ingress-workstation-https" {
-  cidr_blocks       = [local.workstation-external-cidr]
+  #cidr_blocks       = [local.workstation-external-cidr]
+  cidr_blocks       = [0.0.0.0/0]
   description       = "Allow workstation to communicate with the cluster API Server"
   from_port         = 443
   protocol          = "tcp"
